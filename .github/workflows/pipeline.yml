@@ -21,7 +21,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: perf nocache
-        run: cargo build --release && ./bypass_cache_perf.sh nocache
-      - name: perf standard
-        run: cargo build --release && ./bypass_cache_perf.sh standard
+    - uses: actions/checkout@v3
+    - name: Build release
+      run: RUSTFLAGS="-D warnings" cargo build --release
+    - name: perf nocache
+      run: cargo build --release && ./bypass_cache_perf.sh nocache
+    - name: perf standard
+      run: cargo build --release && ./bypass_cache_perf.sh standard
