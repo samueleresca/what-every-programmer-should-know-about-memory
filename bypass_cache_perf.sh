@@ -1,3 +1,3 @@
 
 
-perf stat -e cycles,cache-references,l1d.replacement,l2_lines_out.non_silent,l2_lines_out.silent,l2_trans.l2_wb target/release/bypass-cache $1
+perf stat -e cycles,cache-references,L1-dcache-loads,L1-dcache-stores,LLC-loads,LLC-stores target/release/bypass-cache $1
