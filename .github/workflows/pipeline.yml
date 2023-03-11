@@ -1,4 +1,4 @@
-name: Piepline
+name: Pipeline
 
 on:
   push:
@@ -17,10 +17,20 @@ jobs:
       run: RUSTFLAGS="-D warnings" cargo test --verbose
     - name: Build release
       run: RUSTFLAGS="-D warnings" cargo build --release
+    - name: Uploading artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: build
+        path: |
+          target/**/*
   bypass_cache:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: build
       - name: perf nocache
         run: ./bypass_cache_perf.sh nocache
       - name: perf standard
