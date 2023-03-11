@@ -27,10 +27,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-    - name: Download artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: build
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build
       - name: perf nocache
         run: ./bypass_cache_perf.sh nocache
       - name: perf standard
