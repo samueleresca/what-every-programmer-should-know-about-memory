@@ -33,6 +33,8 @@ jobs:
           name: build
           path: |
             target/release/*
+      - name: Display structure of downloaded files
+        run: ls -R
       - name: perf nocache
         run: ./bypass_cache_perf.sh nocache
       - name: perf standard
