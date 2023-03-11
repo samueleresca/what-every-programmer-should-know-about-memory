@@ -22,7 +22,7 @@ jobs:
       with:
         name: build
         path: |
-          target/release/*
+          target/release/
   bypass_cache:
     needs: build
     runs-on: ubuntu-latest
@@ -32,7 +32,7 @@ jobs:
         with:
           name: build
           path: |
-            target/release/*
+            target/release/
       - name: Display structure of downloaded files
         run: ls -R
       - name: perf nocache
