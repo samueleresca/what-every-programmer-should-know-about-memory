@@ -1,5 +1,12 @@
 use std::arch::x86_64::_mm_stream_si32;
 
+/// Returns an initialized array. The array is initialized using the *non-temporal* write operations.
+///
+/// The new content is directly written to the memory.
+///
+/// # Arguments
+///
+/// * `n` - The dimension of the array.
 pub fn nocache_writes(n: usize) -> Vec<i32> {
     let mut data = vec![0i32; n];
     unsafe {
@@ -11,6 +18,11 @@ pub fn nocache_writes(n: usize) -> Vec<i32> {
     data
 }
 
+/// Returns an initialized array. The array is initialized in a standard way.
+///
+/// # Arguments
+///
+/// * `n` - The dimension of the array.
 pub fn standard_writes(n: usize) -> Vec<i32> {
     let mut data = vec![0i32; n];
     for i in 0..n {
