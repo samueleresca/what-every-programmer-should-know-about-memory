@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "bypass-cache",
+    "l1d-optimization"
+]
