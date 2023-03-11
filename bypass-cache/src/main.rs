@@ -6,7 +6,7 @@ mod bypass_cache;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let n = 1_000_000;
+    let n = 1_000_000_000;
 
     match args.get(1).map(|x| x.as_str()) {
         Some("nocache") => nocache_writes(n),
