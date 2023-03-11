@@ -22,7 +22,7 @@ jobs:
       with:
         name: build
         path: |
-          target/**/*
+          target/release/*
   bypass_cache:
     needs: build
     runs-on: ubuntu-latest
@@ -31,6 +31,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build
+          path: |
+            target/release/*
       - name: perf nocache
         run: ./bypass_cache_perf.sh nocache
       - name: perf standard
