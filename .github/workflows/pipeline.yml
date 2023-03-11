@@ -17,25 +17,11 @@ jobs:
       run: RUSTFLAGS="-D warnings" cargo test --verbose
     - name: Build release
       run: RUSTFLAGS="-D warnings" cargo build --release
-    - name: Uploading artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: build
-        path: |
-          target/release/
   bypass_cache:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build
-          path: |
-            target/release/
-      - name: Display structure of downloaded files
-        run: ls -R
       - name: perf nocache
-        run: ./bypass_cache_perf.sh nocache
+        run: cargo build --release && ./bypass_cache_perf.sh nocache
       - name: perf standard
-        run: ./bypass_cache_perf.sh standard
+        run: cargo build --release && ./bypass_cache_perf.sh standard
