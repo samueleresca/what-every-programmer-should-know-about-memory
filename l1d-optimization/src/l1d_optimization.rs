@@ -35,12 +35,14 @@ pub fn optimized(n: usize) -> Vec<Vec<f64>> {
     let mut tmp = vec![vec![0.0; n]; n];
     let mut res = vec![vec![0.0; n]; n];
 
+    // Transpose the second matrix.
     for i in 0..n {
         for j in 0..n {
             tmp[i][j] = m2[j][i];
         }
     }
 
+    // Perform the multiplication.
     for i in 0..n {
         for j in 0..n {
             for k in 0..n {
