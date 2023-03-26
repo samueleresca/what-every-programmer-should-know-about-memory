@@ -1,3 +1,10 @@
+use cache_size::l1_cache_line_size;
+
+/// Returns the result of the matrix multiplication.
+///
+/// # Arguments
+///
+/// * `n` - The dimension of the matrix.
 pub fn non_optimized(n: usize) -> Vec<Vec<f64>> {
     let m1 = generate_matrix(n);
     let m2 = m1.clone();
@@ -15,6 +22,12 @@ pub fn non_optimized(n: usize) -> Vec<Vec<f64>> {
     res
 }
 
+/// Returns the result of a matrix multiplication.
+/// It transpose the second matrix to optimize the sequential memory access.
+///
+/// # Arguments
+///
+/// * `n` - The dimension of the matrix.
 pub fn optimized(n: usize) -> Vec<Vec<f64>> {
     let m1 = generate_matrix(n);
     let m2 = m1.clone();
@@ -39,6 +52,47 @@ pub fn optimized(n: usize) -> Vec<Vec<f64>> {
     res
 }
 
+/// Returns the result of a matrix multiplication.
+/// Uses loop tiling to optimize the matrix multiplication.
+/// The function relies on cache_size crate to get the cache line size.
+///
+/// # Arguments
+///
+/// * `n` - The dimension of the matrix.
+pub fn optimized_tiled(n: usize) -> Vec<Vec<f64>> {
+    let m1 = generate_matrix(n);
+    let m2 = m1.clone();
+    let mut res = vec![vec![0.0; n]; n];
+
+    // Get the cache line size
+    let block_size: usize = l1_cache_line_size().unwrap() / std::mem::size_of::<f64>();
+
+    // Loop through each block
+    for i in (0..n).step_by(block_size) {
+        for j in (0..n).step_by(block_size) {
+            for k in (0..n).step_by(block_size) {
+                // Loop through each element in the block
+                for ii in i..std::cmp::min(i + block_size, n) {
+                    for jj in j..std::cmp::min(j + block_size, n) {
+                        for kk in k..std::cmp::min(k + block_size, n) {
+                            // Do the actual multiplication
+                            res[ii][jj] += m1[ii][kk] * m2[kk][jj];
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    res
+}
+
+/// Initializes a matrix with values from 0 to n - 1.
+/// # Arguments
+///
+/// * `n` - The dimension of the matrix.
+///
+/// # Returns a matrix with values from 0 to n - 1.
 pub fn generate_matrix(n: usize) -> Vec<Vec<f64>> {
     let mut matrix = vec![vec![0.0; n]; n];
     let mut value = 0.0;
@@ -54,7 +108,7 @@ pub fn generate_matrix(n: usize) -> Vec<Vec<f64>> {
 
 #[cfg(test)]
 mod tests {
-    use crate::l1d_optimization::{generate_matrix, non_optimized, optimized};
+    use crate::l1d_optimization::{generate_matrix, non_optimized, optimized, optimized_tiled};
 
     #[test]
     fn generate_matrix_works() {
@@ -75,6 +129,14 @@ mod tests {
     #[test]
     fn optimized_works() {
         let result = optimized(3);
+        assert_eq!(result[0][0], 15.0);
+        assert_eq!(result[1][1], 54.0);
+        assert_eq!(result[2][2], 111.0);
+    }
+
+    #[test]
+    fn optimized_loop_tiling_works() {
+        let result = optimized_tiled(3);
         assert_eq!(result[0][0], 15.0);
         assert_eq!(result[1][1], 54.0);
         assert_eq!(result[2][2], 111.0);

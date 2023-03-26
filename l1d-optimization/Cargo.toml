@@ -7,3 +7,6 @@ edition = "2021"
 [[bin]]
 name = "l1d-optimization"
 path = "src/main.rs"
+
+[dependencies]
+cache-size = "0.6.0"

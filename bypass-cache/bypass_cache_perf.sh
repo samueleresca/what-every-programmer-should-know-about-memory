@@ -1,2 +1,2 @@
 cargo build --release
-perf stat -d -e cache-misses,cache-references,l1d.replacement,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,l2_lines_in.all ../target/release/bypass-cache $1
+perf stat -e cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,l1d.replacement,l2_lines_in.all,l2_lines_out.silent,l2_lines_out.non_silent ../target/release/bypass-cache $1

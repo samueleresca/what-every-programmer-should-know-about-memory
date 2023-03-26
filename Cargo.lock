@@ -3,9 +3,36 @@
 version = 3
 
 [[package]]
+name = "bitflags"
+version = "1.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
+
+[[package]]
 name = "bypass-cache"
 version = "0.1.0"
 
 [[package]]
+name = "cache-size"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1ec8288c102e0fb71065a0bf2127e8b530fce496aac2f2a1a3bce99be7044094"
+dependencies = [
+ "raw-cpuid",
+]
+
+[[package]]
 name = "l1d-optimization"
 version = "0.1.0"
+dependencies = [
+ "cache-size",
+]
+
+[[package]]
+name = "raw-cpuid"
+version = "10.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6c297679cb867470fa8c9f67dbba74a78d78e3e98d7cf2b08d6d71540f797332"
+dependencies = [
+ "bitflags",
+]

@@ -1,2 +1,2 @@
 cargo build --release
-perf stat -e cycles,cache-references,L1-dcache-load-misses,L1-dcache-loads,L1-dcache-stores ../target/release/l1d-optimization $1
+perf stat -e cycles,instructions,cache-references,l2_rqsts.swpf_hit,cache-references,cache-misses,L1-dcache-loads,L1-dcache-load-misses,L1-dcache-stores,l1d.replacement,l2_lines_in.all,l2_lines_out.silent,l2_lines_out.non_silent ../target/release/l1d-optimization $1
