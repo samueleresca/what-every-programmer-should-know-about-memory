@@ -6,6 +6,7 @@ Every folder in the project represent a code sample:
 
 - [Bypass cache](./bypass-cache/). 
 - [Optimizing L1 Data Cache Access](./l1d-optimization/).
+- [Optimizing TLB using Huge Pages](./huge-pages/).
 
 ## Requirements
 

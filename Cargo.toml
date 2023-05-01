@@ -1,5 +1,6 @@
 [workspace]
 members = [
     "bypass-cache",
-    "l1d-optimization"
+    "l1d-optimization",
+    "huge-pages"
 ]
