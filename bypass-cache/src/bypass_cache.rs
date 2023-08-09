@@ -14,7 +14,7 @@ pub fn standard_initialize(n: usize) -> Vec<Vec<i32>> {
     data
 }
 
-use std::arch::x86_64::_mm_stream_si32;
+use std::arch::x86_64::{_mm_sfence, _mm_stream_si32};
 
 /// Returns an initialized matrix. The matrix is initialized using the *non-temporal* write operations.
 ///
@@ -34,6 +34,11 @@ pub fn nocache_initialize(n: usize) -> Vec<Vec<i32>> {
             }
         }
     }
+
+    // Required before returning to code that may set atomic flags that invite concurrent reads,
+    // as LLVM lowers `AtomicBool::store(flag, true, Release)` to ordinary stores on x86-64
+    // instead of SFENCE, even though SFENCE is required in the presence of nontemporal stores.
+    unsafe { _mm_sfence() };
     data
 }
 
